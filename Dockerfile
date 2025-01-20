@@ -36,18 +36,5 @@ RUN sed --in-place --expression \
 
 ENTRYPOINT ["/ros_entrypoint.sh"]
 
-CMD ["/bin/bash"]
-
-# COPY zmq2ROS2/ zmq2ROS2/
-# RUN cd zmq2ROS2 && \
-    # source /opt/ros/humble/setup.bash 
-    # && \
-    # colcon build
-
-# RUN . /opt/ros/${ROS_DISTRO}/setup.sh && \
-#     colcon build --symlink-install
-
-# RUN ./install/setup.bash
-
 # Set up entrypoint
-# ENTRYPOINT ["ros2", "run", "zmq2ROS2", "zmq_to_ros"]
+CMD ["/bin/bash"]
