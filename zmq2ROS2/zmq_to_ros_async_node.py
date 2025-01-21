@@ -4,6 +4,8 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import asyncio
+from rclpy.executors import MultiThreadedExecutor
+import threading
 
 # Define constant variables for network communication
 DEFAULT_ZMQ_ADDRESS = "tcp://localhost:5555"
@@ -23,10 +25,11 @@ class ZMQToROSAsyncNode(Node):
         self.zmq_topic = self.declare_parameter('zmq_topic', ZMQ_SUBSCRIBE_FILTER).get_parameter_value().string_value
 
         # ZMQ socket setup
-        self.context = zmq.asyncio.Context()
-        self.subscriber = self.context.socket(zmq.SUB)
+        context = zmq.asyncio.Context()
+
+        self.subscriber = context.socket(zmq.SUB)
         self.subscriber.connect(self.zmq_address)
-        self.subscriber.setsockopt_string(zmq.SUBSCRIBE, self.zmq_topic)
+        self.subscriber.setsockopt_string(zmq.SUBSCRIBE, ZMQ_SUBSCRIBE_FILTER)
 
         self.get_logger().info(f"Listening to ZMQ topic '{self.zmq_topic}' on '{self.zmq_address}' and publishing to ROS topic '{ROS_TOPIC_NAME}'.")
 
@@ -54,12 +57,16 @@ class ZMQToROSAsyncNode(Node):
 
 def main(args=None):
     rclpy.init(args=args)
+
+    # create node
     node = ZMQToROSAsyncNode()
 
     try:
-        rclpy.spin(node)
+        # running zmq asyncio loop
+        node.get_logger().info("Starting asyncio loop")
+        node.loop.run_forever()
     except KeyboardInterrupt:
-        node.get_logger().info('Node stopped.')
+        node.get_logger().info('Node stopped by user.')
     finally:
         node.destroy_node()
         rclpy.shutdown()
