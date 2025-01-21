@@ -25,7 +25,7 @@ def main():
             print(f"Published: {message}")
 
             # Wait for 1 second before publishing the next message
-            time.sleep(1)
+            time.sleep(0.5)
     except KeyboardInterrupt:
         print("Shutting down ZMQ publisher")
     finally:
