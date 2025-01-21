@@ -14,7 +14,7 @@ in ~/ros2_ws/src/zmq2ROS2
 ```docker build -t zmq_to_ros_node .```
 
 ## run the docker
-```docker run -it --rm --network host zmq_to_ros_node```
+```docker run -it --rm --privileged --network host zmq_to_ros_node```
 
 inside the docker you can run the executable -> 
 
