@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
           'zmq_to_ros = zmq2ROS2.zmq_to_ros_node:main',
+          'zmq_ro_ros_async = zmq2ROS2.zmq_to_ros_async_node:main',
         ],
     },
 )
